@@ -1,0 +1,52 @@
+<style type="text/css">
+body {
+    margin: 0;
+    padding: 0;
+}
+</style>
+
+<html>
+    <body>
+        <img src="{{ url_for('frame') }}">
+    </body>
+</html>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type=text/javascript>
+    $(function() {
+        $(document).bind('mousemove', function(event) {
+            $.post( "/mouse_events", JSON.stringify({
+                x: event.clientX,
+                y: event.clientY,
+                click: null
+            }));
+            return false;
+        });
+        $(document).bind('mousedown', function() {
+            $.post( "/mouse_events", JSON.stringify({
+                x: null,
+                y: null,
+                click: true
+            }));
+            return false;
+        });
+        $(document).bind('mouseup', function() {
+            $.post( "/mouse_events", JSON.stringify({
+                x: null,
+                y: null,
+                click: false
+            }));
+            return false;
+        });
+    });
+</script>
+
+<!-- https://stackoverflow.com/a/1846704/9016643 -->
+<script type=text/javascript>
+    $(document).keypress(function(event){
+        $.post( "/key_events", JSON.stringify({
+            key : String.fromCharCode(event.which)
+        }));
+        return false;
+    });
+</script>
